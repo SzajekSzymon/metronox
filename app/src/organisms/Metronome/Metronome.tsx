@@ -4,16 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "../../molecules/Icon/Icon";
 import "./metronome.scss";
 import { Input } from "../../molecules/Input/Input";
+import { MetronomeSettings } from "./MetronomeSettings";
 
 const clickSound = new Audio('/sounds/metronome_2.wav');
 const accentClickSound = new Audio('/sounds/metronome_1.wav');
 
 
+export const MIN_TEMPO = 30;
+export const MAX_TEMPO = 280;
+
 export const Metronome = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [tempo, setTempo] = useState<number>(100);
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4); // Number of beats per measure (4/4 by default)
-
+  const [accentBeat, setAccentBeat] = useState(1); // Accent the first beat by default
 
   useEffect(() => {
     let intervalId: string | number | NodeJS.Timeout | undefined;
@@ -21,7 +25,7 @@ export const Metronome = () => {
 
     if (isPlaying) {
       intervalId = setInterval(() => {
-        if (beat % beatsPerMeasure === 0) {
+        if (beat === accentBeat - 1) {
           accentClickSound.currentTime = 0;
           accentClickSound.play();
         } else {
@@ -35,10 +39,10 @@ export const Metronome = () => {
       clearInterval(intervalId);
     }
     return () => clearInterval(intervalId);
-  }, [isPlaying, tempo, beatsPerMeasure]);
+  }, [isPlaying, tempo, beatsPerMeasure, accentBeat]);
 
   const handleTempoChange = (value: number) => {
-    if (value >= 30 && value <= 320) {
+    if (value >= MIN_TEMPO && value <= MAX_TEMPO) {
       setTempo(value);
     }
   };
@@ -47,6 +51,10 @@ export const Metronome = () => {
     if (value >= 1 && value <= 8) {
       setBeatsPerMeasure(value);
     }
+  };
+
+  const handleAccentChange = (value: number) => {
+    setAccentBeat(value);
   };
 
 
@@ -69,32 +77,7 @@ export const Metronome = () => {
           onClick={() => setIsPlaying(true)}
         />
       )}
-
-      <div className="metronome__settings">
-        <Icon
-          className="icon__circleMinus"
-          iconName="circle-minus"
-          alt="increase tempo"
-          onClick={() => setTempo(tempo - 5)}
-        />
-
-        <Input
-          labelText="BPM"
-          value={tempo}
-          type="number"
-          name="bpm"
-          min="30"
-          max="320"
-          onChangeHandler={(value) => setTempo(value)}
-        />
-
-        <Icon
-          iconName="circle-plus"
-          className="icon__circlePlus"
-          alt="increase tempo"
-          onClick={() => setTempo(tempo + 5)}
-        />
-      </div>
+    <MetronomeSettings tempo={tempo} handleTempoChange={handleTempoChange} />
     </div>
   );
 };
