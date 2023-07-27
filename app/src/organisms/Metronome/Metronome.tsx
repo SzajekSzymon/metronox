@@ -6,9 +6,8 @@ import "./metronome.scss";
 import { Input } from "../../molecules/Input/Input";
 import { MetronomeSettings } from "./MetronomeSettings";
 
-const clickSound = new Audio('/sounds/metronome_2.wav');
-const accentClickSound = new Audio('/sounds/metronome_1.wav');
-
+const clickSound = new Audio("/sounds/metronome_2.wav");
+const accentClickSound = new Audio("/sounds/metronome_1.wav");
 
 export const MIN_TEMPO = 30;
 export const MAX_TEMPO = 280;
@@ -54,11 +53,9 @@ export const Metronome = () => {
   };
 
   const handleAccentChange = (value: number) => {
+    if(value >= 1 && value <= beatsPerMeasure)
     setAccentBeat(value);
   };
-
-
-
 
   return (
     <div className="metronome container">
@@ -77,7 +74,14 @@ export const Metronome = () => {
           onClick={() => setIsPlaying(true)}
         />
       )}
-    <MetronomeSettings tempo={tempo} handleTempoChange={handleTempoChange} />
+      <MetronomeSettings
+        tempo={tempo}
+        beatsPerMeasure={beatsPerMeasure}
+        accentBeat={accentBeat}
+        handleTempoChange={handleTempoChange}
+        handleAccentChange={handleAccentChange}
+        handleBeatsPerMeasureChange={handleBeatsPerMeasureChange}
+      />
     </div>
   );
 };
