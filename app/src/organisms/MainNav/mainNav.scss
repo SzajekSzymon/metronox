@@ -1,0 +1,59 @@
+@use "../../styles/general.scss" as *;
+
+#main-nav {
+  color: red;
+  padding: 1rem;
+  background-color: $mainNav-background;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100vw;
+  height: 4.5rem;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 2px 24px 0px rgba(129, 91, 135, 0.5);
+
+  .icon__logo {
+    width: 200px;
+  }
+  .icon__bars {
+    width: 50px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.sideBar {
+  height: 100vh;
+  background: red;
+  position: fixed;
+  right: 0;
+  top: 4.5rem;
+  background-color: $sideBar-background;
+  transition: all 0.25s;
+  transform: translateX(25vw);
+  box-shadow: -8px 15px 24px 0px rgba(129, 91, 135, 0.5);
+  width: 25vw;
+  
+
+  @include lg {
+    width: 25vw;
+    transform: translateX(25vw);
+  }
+
+  @include md {
+    width: 50vw;
+    transform: translateX(50vw);
+  }
+
+  @include sm {
+    width: 100vw;
+    transform: translateX(100vw);
+  }
+
+  &--open {
+    transform: translateX(0);
+  }
+}

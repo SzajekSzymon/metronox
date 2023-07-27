@@ -1,0 +1,41 @@
+// < 360
+@mixin xxs {
+    @media (max-width: 360px) {
+      @content;
+    }
+  }
+  
+  // Extra small devices 360-476
+  @mixin xs {
+    @media (max-width: 476px) {
+      @content;
+    }
+  }
+  
+  // Small devices 476-768
+  @mixin sm {
+    @media (max-width: 768px) {
+      @content;
+    }
+  }
+  
+  // Medium devices 768-1024
+  @mixin md {
+    @media (max-width: 1024px) {
+      @content;
+    }
+  }
+  
+  // Large devices 1024-1440
+  @mixin lg {
+    @media (max-width: 1440px) {
+      @content;
+    }
+  }
+  
+  // Extra Large devices > 1440
+  @mixin xl {
+    @media (min-width: 1440px) {
+      @content;
+    }
+  }

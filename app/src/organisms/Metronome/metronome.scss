@@ -1,0 +1,47 @@
+@use "../../styles/general.scss" as *;
+
+.metronome {
+  height: calc(100vh - 4.5rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .icon__metronomePlay,
+  .icon__metronomeStop {
+    width: 500px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .icon__circleMinus,
+  .icon__circlePlus {
+    width: 5.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__settings {
+    display: flex;
+    width: 50%;
+
+    justify-content: center;
+
+    .input.container {
+      margin: 0 2rem;
+      input {
+        font-size: 2rem;
+        width: 9rem;
+        text-align: center;
+      }
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
