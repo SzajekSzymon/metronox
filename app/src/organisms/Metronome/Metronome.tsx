@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "../../molecules/Icon/Icon";
 import "./metronome.scss";
-import { Input } from "../../molecules/Input/Input";
 import { MetronomeSettings } from "./MetronomeSettings";
+import { useAppSelector } from "../../store/hooks";
 
 const clickSound = new Audio("/sounds/metronome_2.wav");
 const accentClickSound = new Audio("/sounds/metronome_1.wav");
