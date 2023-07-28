@@ -4,6 +4,7 @@ import { Metronome } from "./src/organisms/Metronome/Metronome";
 import { Modal } from "./src/molecules/modal/Modal";
 import { FloatingSettings } from "./src/organisms/FloatingSettings/FloatingSettings";
 import { useState } from "react";
+import { Settings } from "./src/organisms/Settings/Settings";
 
 export default function Home() {
 
@@ -12,8 +13,8 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between ">
       <Metronome />
       <FloatingSettings handleOpenSettings={() => setIsModalOpen(true) }/>
-      <Modal isOpen={isModalOpen} handleCloseModal={() => setIsModalOpen(false)}>
-        <>eloo</>
+      <Modal isOpen={isModalOpen} name="Settings" handleCloseModal={() => setIsModalOpen(false)}>
+        <Settings />
       </Modal>
     </main>
   );

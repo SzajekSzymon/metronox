@@ -1,0 +1,10 @@
+.settings {
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &:not(:first-child) {
+      margin-top: 2rem;
+    }
+  }
+}

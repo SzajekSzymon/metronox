@@ -6,8 +6,7 @@ import "./metronome.scss";
 import { MetronomeSettings } from "./MetronomeSettings";
 import { useAppSelector } from "../../store/hooks";
 
-const clickSound = new Audio("/sounds/metronome_2.wav");
-const accentClickSound = new Audio("/sounds/metronome_1.wav");
+
 
 export const MIN_TEMPO = 30;
 export const MAX_TEMPO = 280;
@@ -17,6 +16,12 @@ export const Metronome = () => {
   const [tempo, setTempo] = useState<number>(100);
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4); // Number of beats per measure (4/4 by default)
   const [accentBeat, setAccentBeat] = useState(1); // Accent the first beat by default
+
+  const defaultBeatSample = useAppSelector((state) => state.metronome.defaultBeat)
+  const accentBeatSample = useAppSelector((state) => state.metronome.accentBeat)
+
+  const clickSound = new Audio(defaultBeatSample);
+  const accentClickSound = new Audio(accentBeatSample);
 
   useEffect(() => {
     let intervalId: string | number | NodeJS.Timeout | undefined;

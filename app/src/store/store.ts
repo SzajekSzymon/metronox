@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './counterSlice'
+import metronomeReducer from './metronomeSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    metronome: metronomeReducer,
   },
   devTools: true,
 })
