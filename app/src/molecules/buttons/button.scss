@@ -1,0 +1,9 @@
+@use "../../styles/general.scss" as *;
+
+
+.button {
+    background-color: $mainNav-background;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin: 0 0.5rem;
+}

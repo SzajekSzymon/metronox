@@ -15,6 +15,14 @@
     }
   }
 
+  .icon__fire {
+    height: 4rem;
+    margin-bottom: 2rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .icon__circleMinus,
   .icon__circlePlus {
     width: 5.5rem;

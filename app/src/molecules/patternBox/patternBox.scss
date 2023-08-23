@@ -1,0 +1,43 @@
+@use "../../styles/general.scss" as *;
+
+.patternBox {
+  &__wrapper {
+    display: flex;
+    .icon__circlePlus {
+      margin-left: 1rem;
+    }
+  }
+  &__container {
+    background-color: $mainNav-background;
+    height: 10rem;
+    width: 75vw;
+    border-radius: 4px;
+    display: flex;
+    display: -webkit-box;
+    overflow-x: scroll;
+    &::-webkit-scrollbar {
+      width: 10px;
+
+      &-track {
+        background: $mainNav-background;
+      }
+      &-thumb {
+        background: $background-secondary;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  &__item {
+    width: 7rem;
+    height: auto;
+    margin: 0.5rem;
+    background-color: #815b87;
+    border: 1px solid white;
+    border-radius: 4px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    padding: 0.25rem;
+  }
+}

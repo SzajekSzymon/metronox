@@ -6,11 +6,13 @@ import { SOUNDS } from '../utils/sounds'
 interface MetronomeState {
   defaultBeat: string,
   accentBeat: string,
+  patternMode: boolean,
 }
 
 const initialState: MetronomeState = {
   defaultBeat: SOUNDS.find((el) => el.label === "metronome_2")?.value || '',
   accentBeat: SOUNDS.find((el) => el.label === "metronome_1")?.value || '',
+  patternMode: false,
 }
 
 export const metronomeSLice = createSlice({
@@ -23,10 +25,13 @@ export const metronomeSLice = createSlice({
     changeAccentBeat: (state, action: PayloadAction<string>) => {
       state.accentBeat = action.payload
     },
+    enablePatternMode: (state, action: PayloadAction<boolean>) => {
+      state.patternMode = action.payload
+    },
   },
 })
 
-export const { changeDefaultBeat, changeAccentBeat} = metronomeSLice.actions
+export const { changeDefaultBeat, changeAccentBeat, enablePatternMode } = metronomeSLice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectMetronome = (state: RootState) => state.metronome

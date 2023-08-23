@@ -1,11 +1,16 @@
 "use client";
 import { useState } from "react";
 import { Icon } from "../../molecules/Icon/Icon";
+import { useSession, signIn, signOut } from "next-auth/react";
 import "./mainNav.scss";
 import classNames from "classnames";
 
 export const MainNav = () => {
   const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {},
+  });
 
   return (
     <>
@@ -23,7 +28,17 @@ export const MainNav = () => {
           "sideBar--open": sideBarOpen,
         })}
       >
-      
+        {session ? (
+          <>
+            Signed in as {session.user?.email} <br />
+            <button onClick={() => signOut()}>Sign out</button>
+          </>
+        ) : (
+          <>
+            Not signed in <br />
+            <button onClick={() => signIn()}>Sign in</button>
+          </>
+        )}
       </div>
     </>
   );

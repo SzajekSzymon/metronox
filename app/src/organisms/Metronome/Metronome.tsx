@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "../../molecules/Icon/Icon";
 import "./metronome.scss";
 import { MetronomeSettings } from "./MetronomeSettings";
-import { useAppSelector } from "../../store/hooks";
-
-
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { enablePatternMode } from "../../store/metronomeSlice";
 
 export const MIN_TEMPO = 30;
 export const MAX_TEMPO = 280;
@@ -16,9 +15,14 @@ export const Metronome = () => {
   const [tempo, setTempo] = useState<number>(100);
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4); // Number of beats per measure (4/4 by default)
   const [accentBeat, setAccentBeat] = useState(1); // Accent the first beat by default
+  const dispatch = useAppDispatch();
 
-  const defaultBeatSample = useAppSelector((state) => state.metronome.defaultBeat)
-  const accentBeatSample = useAppSelector((state) => state.metronome.accentBeat)
+  const defaultBeatSample = useAppSelector(
+    (state) => state.metronome.defaultBeat
+  );
+  const accentBeatSample = useAppSelector(
+    (state) => state.metronome.accentBeat
+  );
 
   const clickSound = new Audio(defaultBeatSample);
   const accentClickSound = new Audio(accentBeatSample);
@@ -43,7 +47,14 @@ export const Metronome = () => {
       clearInterval(intervalId);
     }
     return () => clearInterval(intervalId);
-  }, [isPlaying, tempo, beatsPerMeasure, accentBeat]);
+  }, [
+    isPlaying,
+    tempo,
+    beatsPerMeasure,
+    accentBeat,
+    accentClickSound,
+    clickSound,
+  ]);
 
   const handleTempoChange = (value: number) => {
     if (value >= MIN_TEMPO && value <= MAX_TEMPO) {
@@ -58,12 +69,17 @@ export const Metronome = () => {
   };
 
   const handleAccentChange = (value: number) => {
-    if(value >= 1 && value <= beatsPerMeasure)
-    setAccentBeat(value);
+    if (value >= 0 && value <= beatsPerMeasure) setAccentBeat(value);
   };
 
   return (
     <div className="metronome container">
+      <Icon
+        iconName="fire"
+        className="icon__fire"
+        alt={"fire"}
+        onClick={() => dispatch(enablePatternMode(true))}
+      />
       {isPlaying ? (
         <Icon
           iconName="metronome-stop"

@@ -83,7 +83,7 @@ export const MetronomeSettings = ({
           value={accentBeat}
           type="number"
           name="bpm"
-          min={1}
+          min={0}
           max={beatsPerMeasure}
           onChangeHandler={(value) => handleAccentChange(value)}
         />

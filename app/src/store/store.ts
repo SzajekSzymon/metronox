@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import metronomeReducer from './metronomeSlice'
+import patternReducer from './patternSlice'
 
 export const store = configureStore({
   reducer: {
     metronome: metronomeReducer,
+    pattern: patternReducer,
   },
   devTools: true,
 })
