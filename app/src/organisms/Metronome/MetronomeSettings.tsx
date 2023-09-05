@@ -1,5 +1,5 @@
 import { Icon } from "../../molecules/Icon/Icon";
-import { Input } from "../../molecules/Input/Input";
+import { InputNumber } from "../../molecules/InputNumber/InputNumber";
 import { MAX_TEMPO, MIN_TEMPO } from "./Metronome";
 
 type MetonomeSettingsProps = {
@@ -24,7 +24,6 @@ export const MetronomeSettings = ({
     action: "increase " | "decrease"
   ) => {
     if (value % 5 !== 0 && action === "increase ") {
-      console.log("dupa");
       const newTempo = value - (value % 5);
       handleTempoChange(newTempo);
       return;
@@ -50,7 +49,7 @@ export const MetronomeSettings = ({
           onClick={() => buttonTempoChange(tempo - 5, "decrease")}
         />
 
-        <Input
+        <InputNumber
           labelText="BPM"
           value={tempo}
           type="number"
@@ -69,7 +68,7 @@ export const MetronomeSettings = ({
       </div>
       <div className="metronome__settings__meter">
 
-        <Input
+        <InputNumber
           labelText="meter"
           value={beatsPerMeasure}
           type="number"
@@ -78,7 +77,7 @@ export const MetronomeSettings = ({
           max={8}
           onChangeHandler={(value) => handleBeatsPerMeasureChange(value)}
         />
-        <Input
+        <InputNumber
           labelText="accent"
           value={accentBeat}
           type="number"

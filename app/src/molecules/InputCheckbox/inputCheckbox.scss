@@ -1,0 +1,30 @@
+@use "../../styles/general.scss" as *;
+
+.checkbox {
+  
+  label {
+    display: flex;
+
+    input {
+      height: 20px;
+      width: 20px;
+
+      &[type="checkbox"] {
+        /* Add if not using autoprefixer */
+        /* For iOS < 15 to remove gradient background */
+        background-color: #fff;
+        /* Not removed via appearance */
+        margin: 0;
+
+      }
+      &[type="checkbox"]:checked {
+        /* Add if not using autoprefixer */
+        /* For iOS < 15 to remove gradient background */
+        background-color: #fff;
+        /* Not removed via appearance */
+        margin: 0;
+
+      }
+    }
+  }
+}

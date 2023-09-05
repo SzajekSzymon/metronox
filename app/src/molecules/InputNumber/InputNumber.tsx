@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from "react";
-import "./input.scss";
+import "./inputNumber.scss";
 
 interface InputProps
   extends DetailedHTMLProps<
@@ -18,7 +18,7 @@ interface InputProps
   value: number;
 }
 
-export const Input = ({
+export const InputNumber = ({
   labelText,
   name,
   onChangeHandler,

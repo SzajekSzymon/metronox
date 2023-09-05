@@ -4,6 +4,8 @@ import { Icon } from "../../molecules/Icon/Icon";
 import { useSession, signIn, signOut } from "next-auth/react";
 import "./mainNav.scss";
 import classNames from "classnames";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setProject } from "../../store/patternSlice";
 
 export const MainNav = () => {
   const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
@@ -11,6 +13,11 @@ export const MainNav = () => {
     required: true,
     onUnauthenticated() {},
   });
+
+  const patterns = useAppSelector((state) => state.user.patterns);
+  const pattern = useAppSelector((state) => state.pattern);
+
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -39,6 +46,21 @@ export const MainNav = () => {
             <button onClick={() => signIn()}>Sign in</button>
           </>
         )}
+
+        <ul>
+          {patterns?.map((el, id) => (
+            <li
+              onClick={() => {
+                dispatch(setProject(el));
+                console.log('pattern load')
+                console.log(pattern)
+              }}
+              key={id}
+            >
+              {el.projectName}
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );

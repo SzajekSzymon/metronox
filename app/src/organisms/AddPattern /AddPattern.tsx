@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input } from "../../molecules/Input/Input";
+import { InputNumber } from "../../molecules/InputNumber/InputNumber";
 import { Button } from "../../molecules/buttons/Button";
 import { Select } from "../../molecules/select/Select";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -34,7 +34,6 @@ export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
   const [newPattern, setNewPattern] = useState(DEFAULT_PATTERN_VALUES);
 
 
-console.log(store);
 
   const handleSetNewPattern = (
     key: keyof PatternType,
@@ -57,7 +56,7 @@ console.log(store);
       <div className="addPattern">
         <div className="addPattern__item">
           <span> Tempo</span>
-          <Input
+          <InputNumber
             labelText=""
             value={newPattern.tempo}
             type="number"
@@ -69,7 +68,7 @@ console.log(store);
         </div>
         <div className="addPattern__item">
           <span> metre</span>
-          <Input
+          <InputNumber
             labelText=""
             value={newPattern.metre}
             type="number"
@@ -81,7 +80,7 @@ console.log(store);
         </div>
         <div className="addPattern__item">
           <span> accent</span>
-          <Input
+          <InputNumber
             labelText=""
             value={newPattern.accent}
             type="number"
@@ -93,7 +92,7 @@ console.log(store);
         </div>
         <div className="addPattern__item">
           <span> loops</span>
-          <Input
+          <InputNumber
             labelText=""
             value={newPattern.loops}
             type="number"
