@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import metronomeReducer from './metronomeSlice'
-import patternReducer from './patternSlice'
+import patternReducer, { patternSaga } from './patternSlice'
 import userReducer, { userSaga } from './userSlice'
 import createSagaMiddleware from 'redux-saga'
 
@@ -18,6 +18,7 @@ export const store = configureStore({
 })
 
 sagaMiddleware.run(userSaga)
+sagaMiddleware.run(patternSaga)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

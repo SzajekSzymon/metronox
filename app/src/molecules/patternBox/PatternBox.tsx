@@ -9,23 +9,31 @@ import {
 } from "../../organisms/AddPattern /AddPattern";
 
 type PatternBoxType = {
-  items: PatternType[]
-}
+  items: PatternType[];
+};
 
-export const PatternBox = ({items}: PatternBoxType) => {
+export const PatternBox = ({ items }: PatternBoxType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPatternId, setCurrentPatternId] = useState<number | null>(null);
 
   return (
     <div className="patternBox__wrapper">
       <div className="patternBox__container">
-        {items.map((item, id ) => (
-          <div className="patternBox__item" key={id}>
+        {items.map((item, id) => (
+          <div
+            onClick={() => {
+              setCurrentPatternId(id);
+              setIsModalOpen(true);
+            }}
+            className="patternBox__item"
+            key={id}
+          >
             <span>{`tempo: ${item.tempo}`} </span>
             <span>{`metre: ${item.metre}`} </span>
             <span>{`accent: ${item.accent}`} </span>
             <span>{`loops: ${item.loops}`} </span>
             <span>{`name: ${item.name}`} </span>
-            </div>
+          </div>
         ))}
       </div>
       <Icon
@@ -37,9 +45,15 @@ export const PatternBox = ({items}: PatternBoxType) => {
       <Modal
         isOpen={isModalOpen}
         name="Add Pattern"
-        handleCloseModal={() => setIsModalOpen(false)}
+        handleCloseModal={() => {
+          setIsModalOpen(false);
+          setCurrentPatternId(null);
+        }}
       >
-        <AddPattern modalClose={() => setIsModalOpen(false)} />
+        <AddPattern
+          patternId={currentPatternId}
+          modalClose={() => setIsModalOpen(false)}
+        />
       </Modal>
     </div>
   );

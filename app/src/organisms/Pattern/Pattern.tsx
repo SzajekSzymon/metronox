@@ -9,9 +9,6 @@ import { enablePatternMode } from "../../store/metronomeSlice";
 export const Pattern = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const patterns = useAppSelector((state) => state.pattern.patterns);
-  const pattern = useAppSelector((state) => state.pattern);
-
-  console.log(pattern);
 
   const dispatch = useAppDispatch();
 

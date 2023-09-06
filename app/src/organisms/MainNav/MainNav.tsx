@@ -5,7 +5,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import "./mainNav.scss";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setProject } from "../../store/patternSlice";
+import { patternActions } from "../../store/patternSlice";
 
 export const MainNav = () => {
   const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
@@ -15,8 +15,6 @@ export const MainNav = () => {
   });
 
   const patterns = useAppSelector((state) => state.user.patterns);
-  const pattern = useAppSelector((state) => state.pattern);
-
   const dispatch = useAppDispatch();
 
   return (
@@ -51,9 +49,7 @@ export const MainNav = () => {
           {patterns?.map((el, id) => (
             <li
               onClick={() => {
-                dispatch(setProject(el));
-                console.log('pattern load')
-                console.log(pattern)
+                dispatch(patternActions.setProject(el));
               }}
               key={id}
             >

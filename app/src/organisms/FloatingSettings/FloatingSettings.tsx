@@ -4,9 +4,11 @@ import './floatingSettings.scss';
 type FloatingSettingsProps = {
     handleOpenSettings: () => void
     handleSavePattern: () => void
+    handleUpdatePattern: () => void
+    isUpdate: boolean
 }
 
-export const FloatingSettings = ({handleOpenSettings, handleSavePattern} : FloatingSettingsProps) => {
+export const FloatingSettings = ({handleOpenSettings, handleSavePattern, handleUpdatePattern, isUpdate} : FloatingSettingsProps) => {
   return (
     <div className="floatingSettings">
       <div className="floatingSettings__container">
@@ -14,7 +16,7 @@ export const FloatingSettings = ({handleOpenSettings, handleSavePattern} : Float
           iconName="cog"
           className="icon__metronomeStop"
           alt={"cog"}
-          onClick={handleSavePattern}
+          onClick={isUpdate ? handleUpdatePattern : handleSavePattern}
         />
       <Icon
           iconName="cog"

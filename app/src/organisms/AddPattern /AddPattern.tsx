@@ -10,7 +10,7 @@ import {
 import { SOUNDS } from "../../utils/sounds";
 import { MAX_TEMPO, MIN_TEMPO } from "../Metronome/Metronome";
 import "./addPattern.scss";
-import { addPattern } from "../../store/patternSlice";
+import { patternActions } from "../../store/patternSlice";
 
 export type PatternType = {
   tempo: number;
@@ -28,12 +28,18 @@ const DEFAULT_PATTERN_VALUES: PatternType = {
   loops: 4,
 };
 
-export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
+export const AddPattern = ({
+  modalClose,
+  patternId,
+}: {
+  modalClose: () => void;
+  patternId: number | null;
+}) => {
   const dispatch = useAppDispatch();
-  const store = useAppSelector(state => state.pattern);
+  const currentEditPattern = useAppSelector((state) =>
+    patternId ? state.pattern.patterns[patternId] : null
+  );
   const [newPattern, setNewPattern] = useState(DEFAULT_PATTERN_VALUES);
-
-
 
   const handleSetNewPattern = (
     key: keyof PatternType,
@@ -45,11 +51,15 @@ export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
     });
   };
 
-
   const handleSaveNewPattern = () => {
-    dispatch(addPattern(newPattern));
+    dispatch(patternActions.addPattern(newPattern));
     modalClose();
-  }
+  };
+
+  const handleEditPattern = () => {
+    dispatch(patternActions.editPattern({pattern: newPattern, id: patternId}));
+    modalClose();
+  };
 
   return (
     <>
@@ -58,7 +68,7 @@ export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
           <span> Tempo</span>
           <InputNumber
             labelText=""
-            value={newPattern.tempo}
+            value={currentEditPattern?.tempo || newPattern.tempo}
             type="number"
             name="bpm"
             min={MIN_TEMPO}
@@ -70,7 +80,7 @@ export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
           <span> metre</span>
           <InputNumber
             labelText=""
-            value={newPattern.metre}
+            value={currentEditPattern?.metre || newPattern.metre}
             type="number"
             name="metre"
             min={2}
@@ -82,7 +92,7 @@ export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
           <span> accent</span>
           <InputNumber
             labelText=""
-            value={newPattern.accent}
+            value={currentEditPattern?.accent || newPattern.accent}
             type="number"
             name="metre"
             min={1}
@@ -94,7 +104,7 @@ export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
           <span> loops</span>
           <InputNumber
             labelText=""
-            value={newPattern.loops}
+            value={currentEditPattern?.loops || newPattern.loops}
             type="number"
             name="loops"
             min={1}
@@ -105,7 +115,7 @@ export const AddPattern = ({modalClose}: {modalClose: () => void}) => {
       </div>
       <div className="footer">
         <Button label="Cancel" onClick={modalClose} />
-        <Button label="Save" onClick={handleSaveNewPattern} />
+        <Button label="Save" onClick={currentEditPattern ? handleEditPattern : handleSaveNewPattern} />
       </div>
     </>
   );

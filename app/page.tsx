@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 import { Settings } from "./src/organisms/Settings/Settings";
 import { useAppDispatch, useAppSelector } from "./src/store/hooks";
 import { Pattern } from "./src/organisms/Pattern/Pattern";
-import { getAllUserPatterns, savePattern } from "@/lib/mongo/patterns";
+import { getAllUserPatterns, savePattern, updatePattern } from "@/lib/mongo/patterns";
 import { useSession } from "next-auth/react";
 import { userActions } from "./src/store/userSlice";
+import { patternActions } from "./src/store/patternSlice";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,22 +24,30 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(userActions.getAllUserPatterns());
+  }, [dispatch]);
 
-  }, [dispatch])
-  
-  
   const handleSavePattern = () => {
-    if(session?.user?.email && isPatternMode) {
-      savePattern({user: session?.user?.email, ...pattern})
+    if (session?.user?.email && isPatternMode) {
+      savePattern({ user: session?.user?.email, ...pattern });
     }
-  }
+  };
 
+  const handleUpdatePattern = () => {
+    if (session?.user?.email && isPatternMode && pattern._id) {
+      dispatch(patternActions.requestUpdatePattern())
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between ">
-      {isPatternMode ? <Pattern/> : <Metronome />}
+      {isPatternMode ? <Pattern /> : <Metronome />}
 
-      <FloatingSettings handleOpenSettings={() => setIsModalOpen(true)} handleSavePattern={handleSavePattern} />
+      <FloatingSettings
+        handleOpenSettings={() => setIsModalOpen(true)}
+        handleUpdatePattern={handleUpdatePattern}
+        handleSavePattern={handleSavePattern}
+        isUpdate={pattern._id !== null}
+      />
       <Modal
         isOpen={isModalOpen}
         name="Settings"

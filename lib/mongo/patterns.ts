@@ -20,7 +20,16 @@ export  const getAllUserPatterns = async ( ) => {
           "Content-Type": "application/json",
         },
       });
-
+      return response.json()
+}
+export  const updatePattern = async (data: PatternState ) => {
+  const response = await fetch("/api/pattern", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
       return response.json()
 }
 
