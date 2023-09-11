@@ -22,9 +22,21 @@ export  const getAllUserPatterns = async ( ) => {
       });
       return response.json()
 }
+
 export  const updatePattern = async (data: PatternState ) => {
   const response = await fetch("/api/pattern", {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+      return response.json()
+}
+
+export  const deletePattern = async (data: {pattern: PatternState | null, index: number} ) => {
+  const response = await fetch("/api/pattern", {
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 import { PatternType } from '../organisms/AddPattern /AddPattern';
-import { PatternState } from './patternSlice';
+import { PatternState, patternActions } from './patternSlice';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { getAllUserPatterns } from '@/lib/mongo/patterns';
 
@@ -32,6 +32,7 @@ function* fetchAllUserPatterns() {
     try {
       const user: PatternState[] = yield getAllUserPatterns();
       yield put(userActions.savePatterns(user))
+      yield put(patternActions.refreshPattern())
     } catch (e) {
      console.error(e)
     }

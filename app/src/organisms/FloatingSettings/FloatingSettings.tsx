@@ -13,14 +13,14 @@ export const FloatingSettings = ({handleOpenSettings, handleSavePattern, handleU
     <div className="floatingSettings">
       <div className="floatingSettings__container">
       <Icon
-          iconName="cog"
-          className="icon__metronomeStop"
-          alt={"cog"}
+          iconName="disk"
+          className="icon__disk"
+          alt={"disk"}
           onClick={isUpdate ? handleUpdatePattern : handleSavePattern}
         />
       <Icon
           iconName="cog"
-          className="icon__metronomeStop"
+          className="icon__cog"
           alt={"cog"}
           onClick={handleOpenSettings}
         />

@@ -5,6 +5,7 @@ import { Modal } from "antd";
 import { Settings } from "../Settings/Settings";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { enablePatternMode } from "../../store/metronomeSlice";
+import TabulatureEditor from "../TabulatureEditor/TabulatureEditor";
 
 export const Pattern = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -30,14 +31,19 @@ export const Pattern = () => {
     let beat = 0;
     let loopCount = 0;
 
-    if (isPlaying && currentPattern) {
+    if (isPlaying && currentPattern) {   
       intervalId = setInterval(() => {
         if (beat % currentPattern.metre === currentPattern.accent - 1) {
           accentClickSound.currentTime = 0;
-          accentClickSound.play();
+          if(!currentPattern.silent) {
+            accentClickSound.play();
+          }
+         
         } else {
           clickSound.currentTime = 0;
-          clickSound.play();
+          if(!currentPattern.silent) {
+            clickSound.play();
+          }
         }
 
         beat = (beat + 1) % currentPattern.metre;
@@ -52,11 +58,14 @@ export const Pattern = () => {
           );
           loopCount = 0;
           if (currentPatternIndex + 1 >= patterns.length) {
-            setIsPlaying(false);
+            // setIsPlaying(false);
+            setCurrentPatternIndex(0)
           }
         }
       }, (60 / currentPattern.tempo) * 1000);
     }
+
+    // patternItems[currentPatternIndex].style.animationDuration = `${0}s`
 
     return () => clearInterval(intervalId);
   }, [accentClickSound, clickSound, currentPattern, currentPatternIndex, isPlaying, patterns]);
@@ -74,7 +83,10 @@ export const Pattern = () => {
           iconName="metronome-stop"
           className="icon__metronomeStop"
           alt={"metronome"}
-          onClick={() => setIsPlaying(false)}
+          onClick={() => {
+            setIsPlaying(false);
+            setCurrentPatternIndex(0);
+          } }
         />
       ) : (
         <Icon
@@ -84,7 +96,7 @@ export const Pattern = () => {
           onClick={() => setIsPlaying(true)}
         />
       )}
-      <PatternBox items={patterns} />
+      <PatternBox isPlaying={isPlaying} currentPatternIndex={currentPatternIndex}  items={patterns} />
     </div>
   );
 };

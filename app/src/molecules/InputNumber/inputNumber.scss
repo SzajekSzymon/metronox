@@ -11,7 +11,7 @@
   
   .container label {
     font-size: 0.75rem;
-    color: #818CF8;
+    color: $accent-primary;
     font-weight: 700;
     position: relative;
     top: 0px;
@@ -25,7 +25,7 @@
   .container input {
     padding: 11px 10px;
     font-size: 0.75rem;
-    border: 2px #818CF8 solid;
+    border: 2px $accent-primary solid;
     border-radius: 5px;
     background: transparent;
   }

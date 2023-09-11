@@ -6,7 +6,7 @@ import {
   changeAccentBeat,
   changeDefaultBeat,
 } from "../../store/metronomeSlice";
-import { changeProjectName, changePublic } from "../../store/patternSlice";
+import { patternActions } from "../../store/patternSlice";
 import { SOUNDS } from "../../utils/sounds";
 import "./settings.scss";
 
@@ -20,7 +20,6 @@ export const Settings = () => {
   );
   const isPatternMode = useAppSelector((state) => state.metronome.patternMode);
   const pattern = useAppSelector((state) => state.pattern);
-
 
   return (
     <div className="settings">
@@ -50,19 +49,31 @@ export const Settings = () => {
               value={pattern.projectName || "pattern"}
               type="text"
               name="Name"
-              onChangeHandler={(value) => dispatch(changeProjectName(value))}
+              onChangeHandler={(value) =>
+                dispatch(patternActions.changeProjectName(value))
+              }
             />
           </div>
+
           <div className="settings__item">
             <span> Public</span>
-
-            <InputCheckbox
-              name="Public"
-              labelText="Public"
-              checked={pattern.public}
-              onChangeHandler={() => {
-                dispatch(changePublic(!pattern.public));
+            <Select
+              onChange={(e) => {
+                dispatch(
+                  patternActions.changePublic(e.target.value === "true")
+                );
               }}
+              defaultValue={pattern.public.toString()}
+              options={[
+                {
+                  value: "true",
+                  label: "on",
+                },
+                {
+                  value: "false",
+                  label: "off",
+                },
+              ]}
             />
           </div>
         </>

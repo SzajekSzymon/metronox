@@ -7,14 +7,19 @@ import {
   AddPattern,
   PatternType,
 } from "../../organisms/AddPattern /AddPattern";
+import classNames from "classnames";
 
 type PatternBoxType = {
   items: PatternType[];
+  currentPatternIndex: number;
+  isPlaying: boolean;
 };
 
-export const PatternBox = ({ items }: PatternBoxType) => {
+export const PatternBox = ({ items, currentPatternIndex, isPlaying }: PatternBoxType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPatternId, setCurrentPatternId] = useState<number | null>(null);
+
+  console.log(currentPatternIndex);
 
   return (
     <div className="patternBox__wrapper">
@@ -26,6 +31,7 @@ export const PatternBox = ({ items }: PatternBoxType) => {
               setIsModalOpen(true);
             }}
             className="patternBox__item"
+            style={{animationDuration: isPlaying && currentPatternIndex === id ? `${60 / item.tempo}s`  : '0s' }}
             key={id}
           >
             <span>{`tempo: ${item.tempo}`} </span>
@@ -33,6 +39,7 @@ export const PatternBox = ({ items }: PatternBoxType) => {
             <span>{`accent: ${item.accent}`} </span>
             <span>{`loops: ${item.loops}`} </span>
             <span>{`name: ${item.name}`} </span>
+            <span>{`silent: ${item.silent}`} </span>
           </div>
         ))}
       </div>
@@ -40,7 +47,10 @@ export const PatternBox = ({ items }: PatternBoxType) => {
         className="icon__circlePlus"
         iconName="circle-plus"
         alt="increase tempo"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          setCurrentPatternId(null);
+          setIsModalOpen(true);
+        } }
       />
       <Modal
         isOpen={isModalOpen}

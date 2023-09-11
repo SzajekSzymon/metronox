@@ -24,6 +24,6 @@
 
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/src/context/AuthProvider.tsx", "app/api/patterns/route.js", "lib/mongo/patterns.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/src/context/AuthProvider.tsx", "app/api/patterns/route.js", "lib/mongo/patterns.ts", "app/src/organisms/TabulatureEditor/TabulatureEditor.jsx"],
   "exclude": ["node_modules"]
 }

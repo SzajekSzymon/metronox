@@ -3,7 +3,7 @@
 #main-nav {
   color: red;
   padding: 1rem;
-  background-color: $mainNav-background;
+  background-color: $background-secondary;
   display: flex;
   justify-content: space-between;
   position: fixed;
@@ -11,7 +11,6 @@
   height: 4.5rem;
   top: 0;
   left: 0;
-  box-shadow: 3px 2px 24px 0px rgba(129, 91, 135, 0.5);
 
   .icon__logo {
     width: 200px;
@@ -26,17 +25,18 @@
 }
 
 .sideBar {
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  background: red;
+  padding: 2rem 1rem;
   position: fixed;
   right: 0;
   top: 4.5rem;
-  background-color: $sideBar-background;
+  background-color: $background-secondary;
   transition: all 0.25s;
   transform: translateX(25vw);
-  box-shadow: -8px 15px 24px 0px rgba(129, 91, 135, 0.5);
   width: 25vw;
-  
 
   @include lg {
     width: 25vw;
@@ -54,6 +54,44 @@
   }
 
   &--open {
-    transform: translateX(0);
+    transform: translateX(0);  
+  }
+
+  button {
+    width: fit-content;
+    margin-top: 0.5rem;
+  }
+
+  span {
+    cursor: pointer;
+  }
+
+  .collapse-container {
+    border-bottom: 2px solid $accent-primary;
+
+    .collapse-header {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .button {
+        font-size: 28px;
+      }
+    }
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    .collapse-content {
+      margin-left: 1rem;
+
+      ul {
+        li {
+          margin-top: 0.5rem;
+          cursor: pointer;
+          text-transform: capitalize;
+        }
+      }
+    }
   }
 }

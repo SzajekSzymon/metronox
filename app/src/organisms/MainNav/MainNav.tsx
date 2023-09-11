@@ -5,7 +5,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import "./mainNav.scss";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { patternActions } from "../../store/patternSlice";
+import { initialState, patternActions } from "../../store/patternSlice";
+import Collapse from "../../molecules/Collapse/Collapse";
 
 export const MainNav = () => {
   const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
@@ -33,30 +34,47 @@ export const MainNav = () => {
           "sideBar--open": sideBarOpen,
         })}
       >
+        {session && (
+          <>
+            <span>
+              Hello {session.user?.name} ! <br />
+            </span>
+
+            <Collapse title="Your patterns">
+              <div>
+                <ul>
+                  {patterns?.map((el, id) => (
+                    <li
+                      onClick={() => {
+                        dispatch(patternActions.setProject(el));
+                      }}
+                      key={id}
+                    >
+                      {`- ${el.projectName}`}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Collapse>
+
+            <span
+              onClick={() => {
+                dispatch(patternActions.setProject(initialState));
+              }}
+            >
+              New pattern
+            </span>
+          </>
+        )}
         {session ? (
           <>
-            Signed in as {session.user?.email} <br />
             <button onClick={() => signOut()}>Sign out</button>
           </>
         ) : (
           <>
-            Not signed in <br />
             <button onClick={() => signIn()}>Sign in</button>
           </>
         )}
-
-        <ul>
-          {patterns?.map((el, id) => (
-            <li
-              onClick={() => {
-                dispatch(patternActions.setProject(el));
-              }}
-              key={id}
-            >
-              {el.projectName}
-            </li>
-          ))}
-        </ul>
       </div>
     </>
   );

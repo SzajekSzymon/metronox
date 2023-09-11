@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import './inputCheckbox.scss';
+import "./inputCheckbox.scss";
 
 interface InputProps {
   onChangeHandler: () => void;
@@ -15,15 +15,15 @@ export const InputCheckbox = ({
 }: InputProps) => {
   const [isChecked, setIsChecked] = useState(checked);
 
-  useEffect(() => {
-    setIsChecked(checked);
-  }, [checked]);
-
   return (
     <div className="checkbox">
       <label className="container">
         <input
-          onClick={(e) => onChangeHandler()}
+          onChange={(e) => {
+            onChangeHandler();
+            setIsChecked(!isChecked);
+          }}
+          // defaultChecked={checked}
           checked={isChecked}
           name={name}
           type="checkbox"

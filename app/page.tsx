@@ -26,9 +26,10 @@ export default function Home() {
     dispatch(userActions.getAllUserPatterns());
   }, [dispatch]);
 
-  const handleSavePattern = () => {
+  const handleSavePattern = async () => {
     if (session?.user?.email && isPatternMode) {
-      savePattern({ user: session?.user?.email, ...pattern });
+      await savePattern({ user: session?.user?.email, ...pattern });
+      dispatch(userActions.getAllUserPatterns());
     }
   };
 
