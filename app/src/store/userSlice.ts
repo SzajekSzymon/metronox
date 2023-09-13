@@ -3,15 +3,17 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 import { PatternType } from '../organisms/AddPattern /AddPattern';
 import { PatternState, patternActions } from './patternSlice';
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { getAllUserPatterns } from '@/lib/mongo/patterns';
+import { call, delay, put, select, takeEvery } from 'redux-saga/effects';
+import { getAllUserPatterns } from '@/lib/mongo/user';
 
 export interface UserState {
-    patterns: PatternState[]
+    patterns: PatternState[];
+    userEmail: string
 }
 
 const initialState: UserState = {
-  patterns: []
+  patterns: [],
+  userEmail: ''
 }
 
 export const userSlice = createSlice({
@@ -23,14 +25,20 @@ export const userSlice = createSlice({
     savePatterns: (state, action: PayloadAction<PatternState[]>) => {
       state.patterns = action.payload
     },
+    setUserEmail: (state, action: PayloadAction<string>) => {
+        state.userEmail = action.payload
+
+    }
   },
 })
 
 
 function* fetchAllUserPatterns() {
 
+  let userEmail: string = yield select((state) => state.user.userEmail);
+  console.log(userEmail);
     try {
-      const user: PatternState[] = yield getAllUserPatterns();
+      const user: PatternState[] = yield getAllUserPatterns({username: userEmail});
       yield put(userActions.savePatterns(user))
       yield put(patternActions.refreshPattern())
     } catch (e) {

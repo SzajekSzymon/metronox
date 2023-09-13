@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { initialState, patternActions } from "../../store/patternSlice";
 import Collapse from "../../molecules/Collapse/Collapse";
+import Link from "next/link";
 
 export const MainNav = () => {
   const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
@@ -50,7 +51,8 @@ export const MainNav = () => {
                       }}
                       key={id}
                     >
-                      {`- ${el.projectName}`}
+                         <Link href="/">{`- ${el.projectName}`}</Link>
+                     
                     </li>
                   ))}
                 </ul>
@@ -62,10 +64,18 @@ export const MainNav = () => {
                 dispatch(patternActions.setProject(initialState));
               }}
             >
-              New pattern
+              <Link href="/">New pattern</Link>
+              
             </span>
           </>
         )}
+            <span
+              onClick={() => {
+                dispatch(patternActions.setProject(initialState));
+              }}
+            >
+            <Link href="/browser">Find pattern</Link>
+            </span>
         {session ? (
           <>
             <button onClick={() => signOut()}>Sign out</button>

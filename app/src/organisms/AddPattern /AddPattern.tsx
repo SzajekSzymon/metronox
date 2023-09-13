@@ -38,7 +38,7 @@ export const AddPattern = ({
   modalClose: () => void;
   patternId: number | null;
 }) => {
-  console.log(patternId);
+
   const dispatch = useAppDispatch();
   const currentEditPattern = useAppSelector((state) =>
     typeof patternId === 'number' ? state.pattern.patterns[patternId] : null

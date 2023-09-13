@@ -1,7 +1,7 @@
 import { PatternState } from "@/app/src/store/patternSlice";
 
 interface savePatternProps extends PatternState  {
-  user: string,
+  owner: string,
 }
 
 export  const savePattern = async (data: savePatternProps ) => {
@@ -13,8 +13,8 @@ export  const savePattern = async (data: savePatternProps ) => {
         body: JSON.stringify(data),
       });
 }
-export  const getAllUserPatterns = async ( ) => {
-    const response = await fetch("/api/pattern", {
+export  const getAllPatterns = async (data: {username: string} ) => {
+    const response = await fetch(`/api/user/${data.username}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

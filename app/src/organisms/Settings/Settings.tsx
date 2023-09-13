@@ -39,6 +39,23 @@ export const Settings = () => {
           options={SOUNDS}
         />
       </div>
+      <div className="settings__item">
+        <span> Play in loop</span>
+        <Select
+          onChange={(e) => dispatch(patternActions.changePlayInLoop(e.target.value == 'true'))}
+          defaultValue={pattern.playInLoop.toString()}
+          options={[
+            {
+              value: "true",
+              label: "on",
+            },
+            {
+              value: "false",
+              label: "off",
+            },
+          ]}
+        />
+      </div>
       {isPatternMode && (
         <>
           <div className="settings__item">
@@ -75,6 +92,19 @@ export const Settings = () => {
                 },
               ]}
             />
+          </div>
+          <div className="settings__item">
+            <span> Public for</span>
+            <InputText
+              labelText="Emails"
+              value={pattern.emails?.join(' ') || ""}
+              type="text"
+              name="Emails"
+              onChangeHandler={(value) =>
+                dispatch(patternActions.setEmails(value))
+              }
+            />
+            
           </div>
         </>
       )}

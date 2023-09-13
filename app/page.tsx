@@ -7,7 +7,10 @@ import { useEffect, useState } from "react";
 import { Settings } from "./src/organisms/Settings/Settings";
 import { useAppDispatch, useAppSelector } from "./src/store/hooks";
 import { Pattern } from "./src/organisms/Pattern/Pattern";
-import { getAllUserPatterns, savePattern, updatePattern } from "@/lib/mongo/patterns";
+import {
+  savePattern,
+  updatePattern,
+} from "@/lib/mongo/patterns";
 import { useSession } from "next-auth/react";
 import { userActions } from "./src/store/userSlice";
 import { patternActions } from "./src/store/patternSlice";
@@ -23,19 +26,21 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(userActions.setUserEmail(session?.user?.email || ""));
+
     dispatch(userActions.getAllUserPatterns());
-  }, [dispatch]);
+  }, [dispatch, session?.user?.email]);
 
   const handleSavePattern = async () => {
     if (session?.user?.email && isPatternMode) {
-      await savePattern({ user: session?.user?.email, ...pattern });
+      await savePattern({ ...pattern, owner: session?.user?.email });
       dispatch(userActions.getAllUserPatterns());
     }
   };
 
   const handleUpdatePattern = () => {
     if (session?.user?.email && isPatternMode && pattern._id) {
-      dispatch(patternActions.requestUpdatePattern())
+      dispatch(patternActions.requestUpdatePattern());
     }
   };
 

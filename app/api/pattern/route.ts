@@ -1,13 +1,16 @@
 import { ObjectId } from "mongodb";
 import { client, connectToDatabase } from "../../../lib/mongo/index";
+import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   await connectToDatabase();
   const db = client.db("metronox");
   const collection = db.collection("patterns");
-  const data = await collection.find({}).toArray();
-
-  return new Response(JSON.stringify(data));
+  if(true) {
+    const response = await collection.find().toArray();
+    return new Response(JSON.stringify(response));
+  }
 }
 
 export async function POST(request: Request) {
@@ -52,7 +55,6 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const data = await request.json();
-    console.log(data);
 
     await connectToDatabase();
     const db = client.db("metronox");

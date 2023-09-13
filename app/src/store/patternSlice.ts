@@ -11,6 +11,10 @@ export interface PatternState {
   _id: string | null;
   projectName: string | null;
   public: boolean;
+  emails: string[];
+  owner: string;
+  created_at: string;
+  playInLoop: boolean;
   patterns: {
     tempo: number;
     metre: number;
@@ -25,7 +29,11 @@ export const initialState: PatternState = {
   _id: null,
   projectName: "your pattern project",
   public: false,
-  patterns: []
+  emails: [],
+  owner: '',
+  created_at: new Date().toDateString(),
+  patterns: [],
+  playInLoop: false,
 };
 
 export const patternSlice = createSlice({
@@ -53,13 +61,21 @@ export const patternSlice = createSlice({
       state.projectName = action.payload;
     },
     changePublic: (state, action: PayloadAction<boolean>) => {
-      console.log(action.payload);
       state.public = action.payload;
+    },
+    changePlayInLoop: (state, action: PayloadAction<boolean>) => {
+      state.playInLoop = action.payload;
+    },
+    setEmails: (state, action: PayloadAction<string>) => {
+      state.emails = action.payload.split(' ');
     },
     setProject: (state, action: PayloadAction<PatternState>) => {
       state.projectName = action.payload.projectName;
       state.patterns = action.payload.patterns;
       state.public = action.payload.public;
+      state.playInLoop = action.payload.playInLoop;
+      state.emails = action.payload.emails;
+      state.owner = action.payload.owner;
       state._id = action.payload._id;
     },
   },
@@ -69,7 +85,6 @@ export const patternSlice = createSlice({
 function* requestUpdatePattern() {
   let pattern: PatternState = yield select((state) => state.pattern);
 
-  console.log(pattern);
   try {
     yield updatePattern(pattern);
     yield put(userActions.getAllUserPatterns());
@@ -85,7 +100,6 @@ function* refreshPattern() {
     (el: PatternState) => el._id === pattern._id
   );
 
-  console.log(patternToRefresh);
   if (patternToRefresh) {
     yield put(patternActions.setProject(patternToRefresh));
   }

@@ -6,10 +6,12 @@ import { Settings } from "../Settings/Settings";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { enablePatternMode } from "../../store/metronomeSlice";
 import TabulatureEditor from "../TabulatureEditor/TabulatureEditor";
+import "./pattern.scss";
 
 export const Pattern = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const patterns = useAppSelector((state) => state.pattern.patterns);
+  const pattern = useAppSelector((state) => state.pattern);
 
   const dispatch = useAppDispatch();
 
@@ -31,17 +33,16 @@ export const Pattern = () => {
     let beat = 0;
     let loopCount = 0;
 
-    if (isPlaying && currentPattern) {   
+    if (isPlaying && currentPattern) {
       intervalId = setInterval(() => {
         if (beat % currentPattern.metre === currentPattern.accent - 1) {
           accentClickSound.currentTime = 0;
-          if(!currentPattern.silent) {
+          if (!currentPattern.silent) {
             accentClickSound.play();
           }
-         
         } else {
           clickSound.currentTime = 0;
-          if(!currentPattern.silent) {
+          if (!currentPattern.silent) {
             clickSound.play();
           }
         }
@@ -58,8 +59,11 @@ export const Pattern = () => {
           );
           loopCount = 0;
           if (currentPatternIndex + 1 >= patterns.length) {
-            // setIsPlaying(false);
-            setCurrentPatternIndex(0)
+            if (pattern.playInLoop) {
+              setCurrentPatternIndex(0);
+            } else {
+              setIsPlaying(false);
+            }
           }
         }
       }, (60 / currentPattern.tempo) * 1000);
@@ -68,11 +72,18 @@ export const Pattern = () => {
     // patternItems[currentPatternIndex].style.animationDuration = `${0}s`
 
     return () => clearInterval(intervalId);
-  }, [accentClickSound, clickSound, currentPattern, currentPatternIndex, isPlaying, patterns]);
+  }, [
+    accentClickSound,
+    clickSound,
+    currentPattern,
+    currentPatternIndex,
+    isPlaying,
+    patterns,
+  ]);
 
   return (
     <div className="metronome container">
-            <Icon
+      <Icon
         iconName="fire"
         className="icon__fire"
         alt={"fire"}
@@ -86,7 +97,7 @@ export const Pattern = () => {
           onClick={() => {
             setIsPlaying(false);
             setCurrentPatternIndex(0);
-          } }
+          }}
         />
       ) : (
         <Icon
@@ -96,7 +107,13 @@ export const Pattern = () => {
           onClick={() => setIsPlaying(true)}
         />
       )}
-      <PatternBox isPlaying={isPlaying} currentPatternIndex={currentPatternIndex}  items={patterns} />
+      <div className="projectName"> {pattern.projectName?.toUpperCase()}</div>
+
+      <PatternBox
+        isPlaying={isPlaying}
+        currentPatternIndex={currentPatternIndex}
+        items={patterns}
+      />
     </div>
   );
 };

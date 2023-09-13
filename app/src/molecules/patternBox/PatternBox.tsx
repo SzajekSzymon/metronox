@@ -18,9 +18,6 @@ type PatternBoxType = {
 export const PatternBox = ({ items, currentPatternIndex, isPlaying }: PatternBoxType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPatternId, setCurrentPatternId] = useState<number | null>(null);
-
-  console.log(currentPatternIndex);
-
   return (
     <div className="patternBox__wrapper">
       <div className="patternBox__container">
