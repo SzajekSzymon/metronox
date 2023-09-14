@@ -72,14 +72,7 @@ export const Pattern = () => {
     // patternItems[currentPatternIndex].style.animationDuration = `${0}s`
 
     return () => clearInterval(intervalId);
-  }, [
-    accentClickSound,
-    clickSound,
-    currentPattern,
-    currentPatternIndex,
-    isPlaying,
-    patterns,
-  ]);
+  }, [accentClickSound, clickSound, currentPattern, currentPatternIndex, isPlaying, pattern.playInLoop, patterns]);
 
   return (
     <div className="metronome container">

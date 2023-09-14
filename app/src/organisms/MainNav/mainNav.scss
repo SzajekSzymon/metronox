@@ -57,9 +57,13 @@
     transform: translateX(0);  
   }
 
+  .userName{
+    margin-bottom: 3rem;
+  }
+
   button {
     width: fit-content;
-    margin-top: 0.5rem;
+
   }
 
   span {
@@ -80,15 +84,14 @@
         font-size: 28px;
       }
     }
-    margin-top: 2rem;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
     .collapse-content {
       margin-left: 1rem;
 
       ul {
+        margin-bottom: 1rem;
         li {
-          margin-top: 0.5rem;
+          margin-top: 1rem;
           cursor: pointer;
           text-transform: capitalize;
         }

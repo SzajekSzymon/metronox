@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { initialState, patternActions } from "../../store/patternSlice";
 import Collapse from "../../molecules/Collapse/Collapse";
 import Link from "next/link";
+import { enablePatternMode } from "../../store/metronomeSlice";
 
 export const MainNav = () => {
   const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
@@ -36,11 +37,27 @@ export const MainNav = () => {
         })}
       >
         {session && (
-          <>
-            <span>
-              Hello {session.user?.name} ! <br />
-            </span>
+          <span className="userName">
+            Hello {session.user?.name} ! <br />
+          </span>
+        )}
+        <span
+          onClick={() => {
+            dispatch(enablePatternMode(false))
+          }}
+        >
+          <Link href="/">Metronome</Link>
+        </span>
 
+        <span
+              onClick={() => {
+                dispatch(patternActions.setProject(initialState));
+              }}
+            >
+              <Link href="/">New pattern</Link>
+            </span>
+        {session && (
+          <>
             <Collapse title="Your patterns">
               <div>
                 <ul>
@@ -51,31 +68,21 @@ export const MainNav = () => {
                       }}
                       key={id}
                     >
-                         <Link href="/">{`- ${el.projectName}`}</Link>
-                     
+                      <Link href="/">{`- ${el.projectName}`}</Link>
                     </li>
                   ))}
                 </ul>
               </div>
             </Collapse>
-
-            <span
-              onClick={() => {
-                dispatch(patternActions.setProject(initialState));
-              }}
-            >
-              <Link href="/">New pattern</Link>
-              
-            </span>
           </>
         )}
-            <span
-              onClick={() => {
-                dispatch(patternActions.setProject(initialState));
-              }}
-            >
-            <Link href="/browser">Find pattern</Link>
-            </span>
+        <span
+          onClick={() => {
+            dispatch(patternActions.setProject(initialState));
+          }}
+        >
+          <Link href="/browser">Find pattern</Link>
+        </span>
         {session ? (
           <>
             <button onClick={() => signOut()}>Sign out</button>

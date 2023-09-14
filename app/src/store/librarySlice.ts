@@ -4,14 +4,16 @@ import type { RootState } from './store'
 import { PatternType } from '../organisms/AddPattern /AddPattern';
 import { PatternState, patternActions } from './patternSlice';
 import { call, delay, put, select, takeEvery } from 'redux-saga/effects';
-import { getAllPatterns } from '@/lib/mongo/patterns';
+import { getAllPatterns, getAllPatternsSharedForUser } from '@/lib/mongo/patterns';
 
 export interface LibraryState {
     patterns: PatternState[];
+    patternsSharedForUser: PatternState[];
 }
 
 const initialState: LibraryState = {
   patterns: [],
+  patternsSharedForUser: [],
 }
 
 export const LibrarySlice = createSlice({
@@ -20,8 +22,9 @@ export const LibrarySlice = createSlice({
   reducers: { 
     getAllPatterns(_) {
     },
-    savePatterns: (state, action: PayloadAction<PatternState[]>) => {
-        state.patterns = action.payload
+    savePatterns: (state, action: PayloadAction<{patterns: PatternState[], patternsSharedForUser: PatternState[]}>) => {
+        state.patterns = action.payload.patterns
+        state.patternsSharedForUser = action.payload.patternsSharedForUser
     }
   },
 })
@@ -30,10 +33,10 @@ export const LibrarySlice = createSlice({
 function* fetchAllPatterns() {
 
   let userEmail: string = yield select((state) => state.user.userEmail);
-  console.log(userEmail);
     try {
       const patterns: PatternState[] = yield getAllPatterns();
-      yield put(libraryActions.savePatterns(patterns))
+      const patternsSharedForUser: PatternState[] = yield getAllPatternsSharedForUser({username: userEmail});
+      yield put(libraryActions.savePatterns({patterns, patternsSharedForUser}))
     } catch (e) {
      console.error(e)
     }

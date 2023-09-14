@@ -8,6 +8,28 @@
 
 main {
   padding-top: 4.5rem;
+  margin-top: 4rem;
   border: 1px solid #000;
   background: $background-primary;
+}
+
+.patternList__switch {
+  display: flex;
+  width: 75%;
+  justify-content: end;
+  
+  span{
+    cursor: pointer;
+    padding: 0.5rem 0;
+    &:first-child {
+      margin-right: 1.5rem;
+    }
+  }
+
+  .active {
+    text-decoration: underline;
+  }
+  
+  
+
 }

@@ -23,6 +23,20 @@ export  const getAllPatterns = async () => {
       return response.json()
 }
 
+export const getAllPatternsSharedForUser = async (data: {username: string} ) => {
+  if(data.username) {
+    const response = await fetch(`/api/shared/${data.username}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.json()
+  }
+ 
+  return []
+}
+
 export  const updatePattern = async (data: PatternState ) => {
   const response = await fetch("/api/pattern", {
     method: "PUT",

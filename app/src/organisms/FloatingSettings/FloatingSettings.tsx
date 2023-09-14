@@ -1,24 +1,37 @@
+import { useSession } from "next-auth/react";
 import { Icon } from "../../molecules/Icon/Icon";
-import './floatingSettings.scss';
+import "./floatingSettings.scss";
 
 type FloatingSettingsProps = {
-    handleOpenSettings: () => void
-    handleSavePattern: () => void
-    handleUpdatePattern: () => void
-    isUpdate: boolean
-}
+  handleOpenSettings: () => void;
+  handleSavePattern: () => void;
+  handleUpdatePattern: () => void;
+  isUpdate: boolean;
+};
 
-export const FloatingSettings = ({handleOpenSettings, handleSavePattern, handleUpdatePattern, isUpdate} : FloatingSettingsProps) => {
+export const FloatingSettings = ({
+  handleOpenSettings,
+  handleSavePattern,
+  handleUpdatePattern,
+  isUpdate,
+}: FloatingSettingsProps) => {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {},
+  });
   return (
     <div className="floatingSettings">
       <div className="floatingSettings__container">
-      <Icon
-          iconName="disk"
-          className="icon__disk"
-          alt={"disk"}
-          onClick={isUpdate ? handleUpdatePattern : handleSavePattern}
-        />
-      <Icon
+        {session?.user?.email && (
+          <Icon
+            iconName="disk"
+            className="icon__disk"
+            alt={"disk"}
+            onClick={isUpdate ? handleUpdatePattern : handleSavePattern}
+          />
+        )}
+
+        <Icon
           iconName="cog"
           className="icon__cog"
           alt={"cog"}

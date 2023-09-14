@@ -1,0 +1,34 @@
+@use "../../styles/general.scss" as *;
+
+.patternList {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: 0 0 4.5rem 0;
+
+  &__item {
+    display: flex;
+    background-color: $background-secondary;
+    margin: 0.5rem 0;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+
+
+    &.header {
+        font-weight: 700;
+    }
+    div {
+      width: 30%;
+      &:last-child {
+        width: 10%;;
+      }
+
+      .icon__play {
+        width: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+}
