@@ -18,9 +18,9 @@
 
 .patternBox {
 
-  // animation-duration: 0.5s;
   &__wrapper {
     display: flex;
+    margin-bottom: 1rem;
     .icon__circlePlus {
       margin-left: 1rem;
     }
