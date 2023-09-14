@@ -69,7 +69,7 @@ export const AddPattern = ({
   };
 
   const handleRemovePattern = () => {
-    if (patternId) {
+    if (typeof patternId === 'number') {
       dispatch(patternActions.removePattern({ index: patternId }));
       modalClose();
     }
