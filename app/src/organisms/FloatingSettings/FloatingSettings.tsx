@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { Icon } from "../../molecules/Icon/Icon";
 import "./floatingSettings.scss";
+import { useAppSelector } from "../../store/hooks";
 
 type FloatingSettingsProps = {
   handleOpenSettings: () => void;
@@ -19,10 +20,12 @@ export const FloatingSettings = ({
     required: true,
     onUnauthenticated() {},
   });
+
+  const isPatternMode = useAppSelector((state) => state.metronome.patternMode);
   return (
     <div className="floatingSettings">
       <div className="floatingSettings__container">
-        {session?.user?.email && (
+        {session?.user?.email && isPatternMode && (
           <Icon
             iconName="disk"
             className="icon__disk"

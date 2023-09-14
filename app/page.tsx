@@ -59,7 +59,7 @@ export default function Home() {
         name="Settings"
         handleCloseModal={() => setIsModalOpen(false)}
       >
-        <Settings />
+        <Settings closeModal={() => setIsModalOpen(false)} />
       </Modal>
     </main>
   );

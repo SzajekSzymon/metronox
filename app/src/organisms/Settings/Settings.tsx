@@ -8,11 +8,14 @@ import {
   changeAccentBeat,
   changeDefaultBeat,
 } from "../../store/metronomeSlice";
-import { patternActions } from "../../store/patternSlice";
+import { initialState, patternActions } from "../../store/patternSlice";
 import { SOUNDS } from "../../utils/sounds";
 import "./settings.scss";
+import { Button } from "../../molecules/buttons/Button";
+import { deleteProject } from "@/lib/mongo/user";
+import { userActions } from "../../store/userSlice";
 
-export const Settings = () => {
+export const Settings = ({closeModal}: {closeModal: () => void} ) => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {},
@@ -26,6 +29,15 @@ export const Settings = () => {
   );
   const isPatternMode = useAppSelector((state) => state.metronome.patternMode);
   const pattern = useAppSelector((state) => state.pattern);
+
+  const handleRemoveProject = async (id: string | null, username?: string | null) => {
+    if(username && id) {
+     await deleteProject({username, id});
+     dispatch(userActions.getAllUserPatterns());
+     dispatch(patternActions.setProject(initialState));
+     closeModal();
+    }
+  }
 
   return (
     <div className="settings">
@@ -134,6 +146,10 @@ export const Settings = () => {
                     dispatch(patternActions.setEmails(value))
                   }
                 />
+              </div>
+              <div className="footer">
+                <Button label="Remove project" onClick={() => handleRemoveProject(pattern._id, session?.user?.email)} />
+                <Button label="Apply" onClick={() => closeModal()} />
               </div>
             </>
           )}

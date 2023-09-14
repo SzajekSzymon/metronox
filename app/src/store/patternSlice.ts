@@ -56,10 +56,14 @@ export const patternSlice = createSlice({
     },
     requestUpdatePattern(_) {},
     refreshPattern(_) {},
-    requestRemovePattern(
+    removePattern(
       state,
-      action: PayloadAction<{ index: number | null }>
-    ) {},
+      action: PayloadAction<{ index: number }>
+    ) {
+      const patterns = state.patterns;
+      patterns.splice(action.payload.index, 1);
+      state.patterns = patterns;
+    },
     changeProjectName: (state, action: PayloadAction<string>) => {
       state.projectName = action.payload;
     },
@@ -114,17 +118,17 @@ function* refreshPattern() {
   }
 }
 
-function* requestRemovePattern(action: any) {
-  let pattern: PatternState = yield select((state) => state.pattern);
+// function* requestRemovePattern(action: any) {
+//   let pattern: PatternState = yield select((state) => state.pattern);
 
-  try {
-    yield deletePattern({ pattern, index: action.payload.index });
-    yield put(userActions.getAllUserPatterns());
-    yield put(patternActions.refreshPattern());
-  } catch (e) {
-    console.error(e);
-  }
-}
+//   try {
+//     yield deletePattern({ pattern, index: action.payload.index });
+//     yield put(userActions.getAllUserPatterns());
+//     yield put(patternActions.refreshPattern());
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
 function* handleSetProject() {
   yield put(enablePatternMode(true));
 }
@@ -133,7 +137,7 @@ function* handleSetProject() {
 
 export function* patternSaga() {
   yield takeEvery(patternActions.requestUpdatePattern, requestUpdatePattern);
-  yield takeEvery(patternActions.requestRemovePattern, requestRemovePattern);
+  // yield takeEvery(patternActions.requestRemovePattern, requestRemovePattern);
   yield takeEvery(patternActions.refreshPattern, refreshPattern);
   yield takeEvery(patternActions.setProject, handleSetProject);
 }

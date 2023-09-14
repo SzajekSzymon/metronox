@@ -38,12 +38,13 @@ export const AddPattern = ({
   modalClose: () => void;
   patternId: number | null;
 }) => {
-
   const dispatch = useAppDispatch();
   const currentEditPattern = useAppSelector((state) =>
-    typeof patternId === 'number' ? state.pattern.patterns[patternId] : null
+    typeof patternId === "number" ? state.pattern.patterns[patternId] : null
   );
-  const [newPattern, setNewPattern] = useState(currentEditPattern || DEFAULT_PATTERN_VALUES);
+  const [newPattern, setNewPattern] = useState(
+    currentEditPattern || DEFAULT_PATTERN_VALUES
+  );
 
   const handleSetNewPattern = (
     key: keyof PatternType,
@@ -61,13 +62,17 @@ export const AddPattern = ({
   };
 
   const handleEditPattern = () => {
-    dispatch(patternActions.editPattern({pattern: newPattern, id: patternId}));
+    dispatch(
+      patternActions.editPattern({ pattern: newPattern, id: patternId })
+    );
     modalClose();
-  }
+  };
 
   const handleRemovePattern = () => {
-    dispatch(patternActions.requestRemovePattern({index: patternId}));
-    modalClose();
+    if (patternId) {
+      dispatch(patternActions.removePattern({ index: patternId }));
+      modalClose();
+    }
   };
 
   return (
@@ -124,22 +129,34 @@ export const AddPattern = ({
         <div className="addPattern__item">
           <span> silent loops</span>
           <Select
-          onChange={(e) => handleSetNewPattern("silent", e.target.value === 'true')}
-          defaultValue={newPattern.silent.toString()}
-          options={[{
-            value: 'true',
-            label: 'on'
-          }, {
-            value: 'false',
-            label: 'off',
-          }]}
-        />
+            onChange={(e) =>
+              handleSetNewPattern("silent", e.target.value === "true")
+            }
+            defaultValue={newPattern.silent.toString()}
+            options={[
+              {
+                value: "true",
+                label: "on",
+              },
+              {
+                value: "false",
+                label: "off",
+              },
+            ]}
+          />
         </div>
       </div>
       <div className="footer">
         <Button label="Cancel" onClick={modalClose} />
-        <Button label="Remove" onClick={handleRemovePattern} />
-        <Button label="Save" onClick={currentEditPattern  ? handleEditPattern : handleSaveNewPattern} />
+        {currentEditPattern && (
+          <Button label="Remove" onClick={handleRemovePattern} />
+        )}
+        <Button
+          label="Apply"
+          onClick={
+            currentEditPattern ? handleEditPattern : handleSaveNewPattern
+          }
+        />
       </div>
     </>
   );
