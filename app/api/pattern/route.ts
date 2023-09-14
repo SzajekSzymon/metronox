@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const db = client.db("metronox");
   const collection = db.collection("patterns");
   if(true) {
-    const response = await collection.find().toArray();
+    const response = await collection.find({}).toArray();
     return new Response(JSON.stringify(response));
   }
 }

@@ -13,8 +13,8 @@ export  const savePattern = async (data: savePatternProps ) => {
         body: JSON.stringify(data),
       });
 }
-export  const getAllPatterns = async (data: {username: string} ) => {
-    const response = await fetch(`/api/user/${data.username}`, {
+export  const getAllPatterns = async () => {
+    const response = await fetch(`/api/pattern`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
