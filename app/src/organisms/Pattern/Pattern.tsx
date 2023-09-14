@@ -5,11 +5,12 @@ import { Modal } from "antd";
 import { Settings } from "../Settings/Settings";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { enablePatternMode } from "../../store/metronomeSlice";
-import TabulatureEditor from "../TabulatureEditor/TabulatureEditor";
 import "./pattern.scss";
+import Countdown from "../../molecules/countdown/Countdown";
 
 export const Pattern = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [countdownFinished, setCountdownFinished] = useState<boolean>(true);
   const patterns = useAppSelector((state) => state.pattern.patterns);
   const pattern = useAppSelector((state) => state.pattern);
 
@@ -27,6 +28,11 @@ export const Pattern = () => {
 
   const [currentPatternIndex, setCurrentPatternIndex] = useState(0);
   const currentPattern = patterns[currentPatternIndex];
+
+  const handleCountdownTimeout = () => {
+    setCountdownFinished(true);
+    setIsPlaying(false);
+  };
 
   useEffect(() => {
     let intervalId: string | number | NodeJS.Timeout | undefined;
@@ -69,10 +75,8 @@ export const Pattern = () => {
       }, (60 / currentPattern.tempo) * 1000);
     }
 
-    // patternItems[currentPatternIndex].style.animationDuration = `${0}s`
-
     return () => clearInterval(intervalId);
-  }, [accentClickSound, clickSound, currentPattern, currentPatternIndex, isPlaying, pattern.playInLoop, patterns]);
+  }, [accentClickSound, clickSound, countdownFinished, currentPattern, currentPatternIndex, isPlaying, pattern.playInLoop, patterns]);
 
   return (
     <div className="metronome container">
@@ -88,6 +92,7 @@ export const Pattern = () => {
           className="icon__metronomeStop"
           alt={"metronome"}
           onClick={() => {
+            setCountdownFinished(true);
             setIsPlaying(false);
             setCurrentPatternIndex(0);
           }}
@@ -97,7 +102,10 @@ export const Pattern = () => {
           iconName="metronome-play"
           className="icon__metronomePlay"
           alt={"metronome"}
-          onClick={() => setIsPlaying(true)}
+          onClick={() => {
+            setCountdownFinished(false);
+            setIsPlaying(true)
+          }}
         />
       )}
       <div className="projectName"> {pattern.projectName?.toUpperCase()}</div>
@@ -107,6 +115,10 @@ export const Pattern = () => {
         currentPatternIndex={currentPatternIndex}
         items={patterns}
       />
+      {!countdownFinished && pattern.playInLoop && pattern.timer > 0 && (
+        <Countdown targetTime={pattern.timer * 60000} onTimeout={handleCountdownTimeout} />
+      )}
+
     </div>
   );
 };

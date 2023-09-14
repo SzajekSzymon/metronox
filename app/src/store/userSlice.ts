@@ -36,7 +36,6 @@ export const userSlice = createSlice({
 function* fetchAllUserPatterns() {
 
   let userEmail: string = yield select((state) => state.user.userEmail);
-  console.log(userEmail);
     try {
       const user: PatternState[] = yield getAllUserPatterns({username: userEmail});
       yield put(userActions.savePatterns(user))

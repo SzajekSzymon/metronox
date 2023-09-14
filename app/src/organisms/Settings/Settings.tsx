@@ -1,4 +1,6 @@
+import { useSession } from "next-auth/react";
 import { InputCheckbox } from "../../molecules/InputCheckbox/InputCheckbox";
+import { InputNumber } from "../../molecules/InputNumber/InputNumber";
 import { InputText } from "../../molecules/InputText/InputText";
 import { Select } from "../../molecules/select/Select";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -11,6 +13,10 @@ import { SOUNDS } from "../../utils/sounds";
 import "./settings.scss";
 
 export const Settings = () => {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {},
+  });
   const dispatch = useAppDispatch();
   const defaultBeatSample = useAppSelector(
     (state) => state.metronome.defaultBeat
@@ -63,53 +69,74 @@ export const Settings = () => {
               ]}
             />
           </div>
-          <div className="settings__item">
-            <span> Name </span>
+          {pattern.playInLoop && (
+            <div className="settings__item">
+              <span> timer (minutes)</span>
+              <InputNumber
+                labelText="Minutes"
+                value={pattern.timer}
+                type="number"
+                name="bpm"
+                min={0}
+                max={20}
+                onChangeHandler={(value) => {
+                  dispatch(patternActions.setTimer(value));
+                }}
+              />
+            </div>
+          )}
 
-            <InputText
-              labelText="Name"
-              value={pattern.projectName || "pattern"}
-              type="text"
-              name="Name"
-              onChangeHandler={(value) =>
-                dispatch(patternActions.changeProjectName(value))
-              }
-            />
-          </div>
+          {session?.user?.email && (
+            <>
+              <div className="settings__item">
+                <span> Name </span>
 
-          <div className="settings__item">
-            <span> Public</span>
-            <Select
-              onChange={(e) => {
-                dispatch(
-                  patternActions.changePublic(e.target.value === "true")
-                );
-              }}
-              defaultValue={pattern.public.toString()}
-              options={[
-                {
-                  value: "true",
-                  label: "on",
-                },
-                {
-                  value: "false",
-                  label: "off",
-                },
-              ]}
-            />
-          </div>
-          <div className="settings__item">
-            <span> Public for</span>
-            <InputText
-              labelText="Emails"
-              value={pattern.emails?.join(" ") || ""}
-              type="text"
-              name="Emails"
-              onChangeHandler={(value) =>
-                dispatch(patternActions.setEmails(value))
-              }
-            />
-          </div>
+                <InputText
+                  labelText="Name"
+                  value={pattern.projectName || "pattern"}
+                  type="text"
+                  name="Name"
+                  onChangeHandler={(value) =>
+                    dispatch(patternActions.changeProjectName(value))
+                  }
+                />
+              </div>
+
+              <div className="settings__item">
+                <span> Public</span>
+                <Select
+                  onChange={(e) => {
+                    dispatch(
+                      patternActions.changePublic(e.target.value === "true")
+                    );
+                  }}
+                  defaultValue={pattern.public.toString()}
+                  options={[
+                    {
+                      value: "true",
+                      label: "on",
+                    },
+                    {
+                      value: "false",
+                      label: "off",
+                    },
+                  ]}
+                />
+              </div>
+              <div className="settings__item">
+                <span> Public for</span>
+                <InputText
+                  labelText="Emails"
+                  value={pattern.emails?.join(" ") || ""}
+                  type="text"
+                  name="Emails"
+                  onChangeHandler={(value) =>
+                    dispatch(patternActions.setEmails(value))
+                  }
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

@@ -6,6 +6,7 @@ import { call, put, select, takeEvery } from "redux-saga/effects";
 import { deletePattern, updatePattern } from "@/lib/mongo/patterns";
 import { UserState, userActions } from "./userSlice";
 import { enablePatternMode } from "./metronomeSlice";
+import { stat } from "fs";
 
 export interface PatternState {
   _id: string | null;
@@ -15,6 +16,7 @@ export interface PatternState {
   owner: string;
   created_at: string;
   playInLoop: boolean;
+  timer: number;
   patterns: {
     tempo: number;
     metre: number;
@@ -34,6 +36,7 @@ export const initialState: PatternState = {
   created_at: new Date().toDateString(),
   patterns: [],
   playInLoop: false,
+  timer: 0,
 };
 
 export const patternSlice = createSlice({
@@ -69,6 +72,11 @@ export const patternSlice = createSlice({
     setEmails: (state, action: PayloadAction<string>) => {
       state.emails = action.payload.split(' ');
     },
+    setTimer: (state, action: PayloadAction<number>) => {
+        if(state.playInLoop) {
+          state.timer = action.payload;
+        }
+    },
     setProject: (state, action: PayloadAction<PatternState>) => {
       state.projectName = action.payload.projectName;
       state.patterns = action.payload.patterns;
@@ -76,6 +84,7 @@ export const patternSlice = createSlice({
       state.playInLoop = action.payload.playInLoop;
       state.emails = action.payload.emails;
       state.owner = action.payload.owner;
+      state.timer = action.payload.timer;
       state._id = action.payload._id;
     },
   },

@@ -29,8 +29,6 @@ export default function Home() {
     dispatch(userActions.getAllUserPatterns());
   }, [dispatch, session?.user?.email]);
 
-  console.log(patterns);
-  console.log(patternsSharedForUser);
   return (
     <main className="flex min-h-screen flex-col items-center ">
       {session?.user?.email && (

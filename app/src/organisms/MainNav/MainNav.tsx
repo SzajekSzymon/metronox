@@ -76,11 +76,7 @@ export const MainNav = () => {
             </Collapse>
           </>
         )}
-        <span
-          onClick={() => {
-            dispatch(patternActions.setProject(initialState));
-          }}
-        >
+        <span>
           <Link href="/browser">Find pattern</Link>
         </span>
         {session ? (
