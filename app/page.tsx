@@ -7,10 +7,7 @@ import { useEffect, useState } from "react";
 import { Settings } from "./src/organisms/Settings/Settings";
 import { useAppDispatch, useAppSelector } from "./src/store/hooks";
 import { Pattern } from "./src/organisms/Pattern/Pattern";
-import {
-  savePattern,
-  updatePattern,
-} from "@/lib/mongo/patterns";
+import { savePattern, updatePattern } from "@/lib/mongo/patterns";
 import { useSession } from "next-auth/react";
 import { userActions } from "./src/store/userSlice";
 import { patternActions } from "./src/store/patternSlice";
@@ -18,6 +15,7 @@ import { patternActions } from "./src/store/patternSlice";
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isPatternMode = useAppSelector((state) => state.metronome.patternMode);
+  const patterns = useAppSelector((state) => state.user.patterns);
   const pattern = useAppSelector((state) => state.pattern);
   const { data: session } = useSession({
     required: true,
@@ -33,8 +31,20 @@ export default function Home() {
 
   const handleSavePattern = async () => {
     if (session?.user?.email && isPatternMode) {
-      await savePattern({ ...pattern, owner: session?.user?.email });
+      const result = await savePattern({
+        ...pattern,
+        owner: session?.user?.email,
+      });
+      
       dispatch(userActions.getAllUserPatterns());
+
+      dispatch(
+        patternActions.setProject({
+          ...pattern,
+          _id: result.id,
+          owner: session?.user?.email,
+        })
+      );
     }
   };
 

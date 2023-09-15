@@ -12,6 +12,8 @@ export  const savePattern = async (data: savePatternProps ) => {
         },
         body: JSON.stringify(data),
       });
+
+      return response.json();
 }
 export  const getAllPatterns = async () => {
     const response = await fetch(`/api/pattern`, {

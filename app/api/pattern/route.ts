@@ -21,8 +21,10 @@ export async function POST(request: Request) {
     const db = client.db("metronox");
     const collection = db.collection("patterns");
 
-    collection.insertOne(data);
-    return new Response(JSON.stringify({ status: 200 }));
+    const result = await collection.insertOne(data);
+
+    return new Response(JSON.stringify({ id: result.insertedId, status: 200 }));
+
   } catch (error) {
     return new Response(JSON.stringify(error));
   }
