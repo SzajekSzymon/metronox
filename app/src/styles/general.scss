@@ -13,6 +13,16 @@ main {
   background: $background-primary;
 }
 
+.search {
+  display: flex;
+  width: 75%;
+  align-items: end;
+
+  button {
+    height: 44px;
+  }
+}
+
 .patternList__switch {
   display: flex;
   width: 75%;

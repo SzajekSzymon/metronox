@@ -83,7 +83,7 @@ export const Settings = ({closeModal}: {closeModal: () => void} ) => {
           </div>
           {pattern.playInLoop && (
             <div className="settings__item">
-              <span> timer (minutes)</span>
+              <span> Timer (minutes)</span>
               <InputNumber
                 labelText="Minutes"
                 value={pattern.timer}

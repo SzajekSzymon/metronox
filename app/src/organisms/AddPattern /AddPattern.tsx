@@ -91,7 +91,7 @@ export const AddPattern = ({
           />
         </div>
         <div className="addPattern__item">
-          <span> metre</span>
+          <span> Metre</span>
           <InputNumber
             labelText=""
             value={newPattern.metre}
@@ -103,7 +103,7 @@ export const AddPattern = ({
           />
         </div>
         <div className="addPattern__item">
-          <span> accent</span>
+          <span> Accent</span>
           <InputNumber
             labelText=""
             value={newPattern.accent}
@@ -115,7 +115,7 @@ export const AddPattern = ({
           />
         </div>
         <div className="addPattern__item">
-          <span> loops</span>
+          <span> Loops</span>
           <InputNumber
             labelText=""
             value={newPattern.loops}
@@ -127,7 +127,7 @@ export const AddPattern = ({
           />
         </div>
         <div className="addPattern__item">
-          <span> silent loops</span>
+          <span> Silent loops</span>
           <Select
             onChange={(e) =>
               handleSetNewPattern("silent", e.target.value === "true")

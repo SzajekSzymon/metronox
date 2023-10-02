@@ -37,6 +37,7 @@
   transition: all 0.25s;
   transform: translateX(25vw);
   width: 25vw;
+  z-index: 10;
 
   @include lg {
     width: 25vw;

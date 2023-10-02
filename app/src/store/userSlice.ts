@@ -27,7 +27,7 @@ export const userSlice = createSlice({
     },
     setUserEmail: (state, action: PayloadAction<string>) => {
         state.userEmail = action.payload
-
+3
     }
   },
 })
